@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.sql.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 
 
@@ -35,6 +36,15 @@ public class TelaLogin extends JFrame {
 			if (rs.next()) {
 				
 				
+				new File("Public").mkdir();
+				
+				 File diretorio = new File("devalor");
+				 
+				 if (!diretorio.exists()) {
+					 diretorio.mkdir();
+				 }
+				
+				 
 				SegundaTela tela = new SegundaTela();
 				tela.setVisible(true);
 				this.dispose();

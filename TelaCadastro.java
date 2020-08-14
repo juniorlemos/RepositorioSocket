@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 public class TelaCadastro extends JFrame {
@@ -36,7 +37,12 @@ public class TelaCadastro extends JFrame {
 			int param =pst.executeUpdate();			
 			if (param>0) {
 			JOptionPane.showMessageDialog(null, "Usuario adicionado com sucesso");
-
+             
+			
+			// criando as pastas de acesso dos usuarios
+			
+			new File(campologin.getText()).mkdir();
+			
 
 				 camponome.setText(null);
 				 campologin.setText(null);

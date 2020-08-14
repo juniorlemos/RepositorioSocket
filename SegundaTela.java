@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JComboBox;
 
 public class SegundaTela extends JFrame {
 
@@ -38,7 +39,7 @@ public class SegundaTela extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(201, 70, 70, 15);
+		lblNewLabel.setBounds(174, 12, 70, 15);
 		contentPane.add(lblNewLabel);
 	}
 }
