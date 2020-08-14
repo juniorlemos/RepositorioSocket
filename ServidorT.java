@@ -15,6 +15,8 @@ public class ServidorT implements Runnable {
   private Socket clienteSocket;
   private BufferedReader in = null;
 
+  private String usuario;
+  
   public ServidorT(Socket cliente) {
    this.clienteSocket = cliente;
   }
@@ -36,14 +38,18 @@ public void run() {
                     enviar(nomeCliente);   
                 break;
             case "3":
-            	String usuario;
+            	
             	usuario=in.readLine();
                   listar(usuario);
                 break;
             case "4":
-            	 String nomeArquivo;
-            	 nomeArquivo = in.readLine();
-                deletar(nomeArquivo);
+            	
+            	String usuario;
+            	String nomeArquivo;
+            	 usuario = in.readLine();
+            	nomeArquivo = in.readLine();
+            	
+                deletar(usuario, nomeArquivo);
               break;
             default:
             	
@@ -133,24 +139,47 @@ public void run() {
 	}
 
    }
-   public void deletar (String arquivo ) {
+   public void deletar (String usuario,String arquivo  ) {
 	   
-	   File file = new File( arquivo);
-	  
-	   if (file.delete()) {
-		   try {
-			DataOutputStream dos = new DataOutputStream(clienteSocket.getOutputStream());
-			dos.writeUTF("o Arquivo "+arquivo+" foi apagado");
-			dos.flush();
-			dos.close();
-			
-		} catch (IOException e) {
+	   System.out.println(usuario);
+	   
+	   String path="";
+		try {
+			 path = new File(".").getCanonicalPath()+"/"+usuario;
+			 
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}   
-		   
-	   }
+			e1.printStackTrace();
+		}
+		
 	   
+		File file = new File(path);
+	   
+		File[] arquivos = file.listFiles();
+	   
+		  String nome = "";
+			 for (File fileTmp : arquivos) {
+			   
+				  if(fileTmp.getName().equals(arquivo) ) {
+					     fileTmp.delete();
+					     try {
+								DataOutputStream dos = new DataOutputStream(clienteSocket.getOutputStream());
+								dos.writeUTF("o Arquivo "+arquivo+" foi apagado");
+								dos.flush();
+								dos.close();
+								
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}   		    	 
+					     
+					     } 
+					   
+				 
+			
+			     }
+	   
+	  	   
 	   
    }
 }

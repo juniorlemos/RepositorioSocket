@@ -64,6 +64,7 @@ try {
         break;
     case 4:
     	atvServidor.println("4");
+    	atvServidor.println("Public");
     	System.err.print("Digite o nome do Arquivo: ");
         nomeArquivo = entrada.readLine();
         atvServidor.println(nomeArquivo);
