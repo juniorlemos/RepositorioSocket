@@ -36,6 +36,7 @@ System.out.println("1 enviar");
 System.out.println("2 receber");
 System.out.println("3 listar");
 System.out.println("4 deletar ");
+System.out.println("5 mover ");
 
 Scanner s = new Scanner(System.in);
 int t =s.nextInt();
@@ -71,6 +72,17 @@ try {
         atvServidor.println(nomeArquivo);
         deletar();
         break; 
+        
+        
+    case 5:
+    	atvServidor.println("5");
+    	atvServidor.println("Public");
+    	System.err.print("Digite o nome do Arquivo: ");
+        nomeArquivo = entrada.readLine();
+        atvServidor.println(nomeArquivo);
+        mover();
+        break; 
+        
     default:
         	System.out.println("Opção errada");
         	break;
@@ -174,4 +186,24 @@ socket.close();
 				e.printStackTrace();
 			}
       }
+      
+      
+      public static void mover() {
+    	  
+    	  DataInputStream clienteData;
+			try {
+				clienteData = new DataInputStream(socket.getInputStream());
+				String mensagem = clienteData.readUTF();
+				System.out.println(mensagem);
+			  	 clienteData.close();
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     }
+    
+      }
+      
+      
+    
