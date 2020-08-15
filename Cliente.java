@@ -46,6 +46,7 @@ try {
 	switch (t) {
     case 1:
     	atvServidor.println("1");
+    	atvServidor.println("Public");
         enviar();
         break;
     case 2:

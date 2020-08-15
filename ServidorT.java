@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ServidorT implements Runnable {
 
@@ -30,7 +33,9 @@ public void run() {
     escolhacliente = in.readLine();
         switch (escolhacliente) {
             case "1":
-                receber();
+            	
+            	String usua=in.readLine(); 
+                receber(usua);
                 break;
             case "2":
                 String nomeCliente;
@@ -62,9 +67,13 @@ public void run() {
    }
 }
 
-    public void receber() {
+    public void receber(String usuario) {
    try {
-
+	   
+	   String origem="";
+		  String destino="";
+		  
+	   
     DataInputStream clienteData = new DataInputStream(clienteSocket.getInputStream());
 
     String nomeArquivo = clienteData.readUTF();
@@ -77,6 +86,14 @@ public void run() {
         size -= bytesRead;
     }
 
+    origem = new File(nomeArquivo).getAbsolutePath();
+	 destino = new File(".").getCanonicalPath()+"/"+usuario+"/"+nomeArquivo;
+	 
+	 
+	 Path source = Paths.get(origem);
+		Path destination = Paths.get(destino);
+	    Files.copy(source, destination);
+	 
     output.close();
     clienteData.close();
 
