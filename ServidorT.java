@@ -39,8 +39,12 @@ public class ServidorT implements Runnable {
 				break;
 			case "2":
 				String nomeCliente;
+				String us;
 				nomeCliente = in.readLine();
-				enviar(nomeCliente);
+				us=in.readLine();
+				
+				System.out.println(us);
+				enviar(nomeCliente, us);
 				break;
 			case "3":
 
@@ -113,10 +117,18 @@ public class ServidorT implements Runnable {
 		}
 	}
 
-	public void enviar(String nomeArquivo) {
+	public void enviar(String nomeArquivo , String usuario) {
 		try {
-
-			File arquivo = new File(nomeArquivo);
+			String origem = "";
+			
+			
+			
+			origem=new File(".").getCanonicalPath()+"/"+usuario+"/"+nomeArquivo;			
+			
+			
+			//File arquivo = new File(nomeArquivo);
+			File arquivo = new File(origem);
+			
 			byte[] mybytearray = new byte[(int) arquivo.length()];
 
 			FileInputStream fis = new FileInputStream(arquivo);
