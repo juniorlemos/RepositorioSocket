@@ -1,4 +1,4 @@
-package descobrirIP;
+package repeticao;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -240,7 +240,7 @@ System.out.println("esse e o lugar par eu mydar"+nome.getText());
   }
 
   output.close();
-  in.close();
+ // in.close();
 
   System.out.println("Arquivo "+nomeArquivo+" recebido pelo Servidor.");
 } catch (IOException ex) {
@@ -254,7 +254,7 @@ System.out.println("esse e o lugar par eu mydar"+nome.getText());
 				clienteData = new DataInputStream(socket.getInputStream());
 				String mensagem = clienteData.readUTF();
 				System.out.println(mensagem);
-			  	 clienteData.close();
+			  	 //clienteData.close();
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -267,7 +267,7 @@ System.out.println("esse e o lugar par eu mydar"+nome.getText());
 			clienteData = new DataInputStream(socket.getInputStream());
 			String mensagem = clienteData.readUTF();
 			System.out.println(mensagem);
-		  	 clienteData.close();
+		  	 //clienteData.close();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -292,7 +292,7 @@ System.out.println("esse e o lugar par eu mydar"+nome.getText());
 			}
 		     
 		     
-		  	  clienteData.close();
+		  	 // clienteData.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
