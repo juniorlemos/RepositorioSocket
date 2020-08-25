@@ -104,7 +104,7 @@ public class Index extends JFrame {
 		});
 		
 		JList list = new JList();
-		list.setBounds(420, 136, 178, 250);
+		list.setBounds(431, 34, 178, 250);
 		getContentPane().add(list);
 		subir.setBounds(27, 27, 117, 25);
 		getContentPane().add(subir);
@@ -158,7 +158,7 @@ public class Index extends JFrame {
 		listar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				atvServidor.println("3");
-		    	atvServidor.println("Public");
+		    	atvServidor.println(pasta);
 		        listar();
 		        DefaultListModel dlm = new DefaultListModel();
 				
@@ -173,7 +173,7 @@ public class Index extends JFrame {
 		
 		nome = new JTextField();
 		nome.setText("exemplo");
-		nome.setBounds(420, 80, 114, 19);
+		nome.setBounds(267, 33, 114, 19);
 		getContentPane().add(nome);
 		nome.setColumns(10);
 		
