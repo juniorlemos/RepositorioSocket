@@ -1,4 +1,4 @@
-package trabalho;
+package repeticao;
 
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class PlayServidor {
             cliente = serverSocket.accept();
             System.out.println("Conexão realizada IP  " + cliente.getInetAddress());
  
-            Thread t = new Thread(new TesteServidorT(cliente));
+            Thread t = new Thread(new ServidorT(cliente));
  
             t.start();
  

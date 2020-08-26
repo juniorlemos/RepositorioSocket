@@ -1,4 +1,4 @@
-package trabalho;
+package repeticao;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -58,6 +58,36 @@ public class Cliente {
 			e = s.nextInt();
 			
 			
+			
+               if (e == 2) {
+				
+				System.out.println("Digite um Nome");
+				nome = n.nextLine();
+				System.out.println("Crie um Login");
+				login = l.nextLine();
+				System.out.println("Crie uma Senha");
+				senha = sn.nextLine();
+				
+				if(cadastrar(nome,login,senha)) {
+					
+			   System.out.println("usuario cadastrado com sucesso");
+					
+				}
+				
+				else
+				{
+					System.out.println("Erro de cadastro login ja existe");
+					
+				}
+				
+			}
+               
+               
+               
+               
+               
+               
+			
 			if (e == 1) {
 
 				System.out.println("Digite o seu Login");
@@ -102,7 +132,9 @@ public class Cliente {
 					   // Scanner s = new Scanner(System.in);
 					    
 					    //int e;
-					    e =0;
+					   int v =0;
+					    
+					   
 					    
 					    while(e!=6) {
 					    
@@ -113,9 +145,9 @@ public class Cliente {
 					    	System.out.println("4 deletar ");
 					    	System.out.println("5 mover ");
 					    	System.out.println("6 Sair ");
-					    	e =s.nextInt();
+					    	v =s.nextInt();
 					    	
-					    	switch (e) {
+					    	switch (v) {
 							case 1:
 								System.out.println("subir ");					
 								atvServidor.println("1");
@@ -198,39 +230,19 @@ public class Cliente {
 					    	
 						}
 						s.close();
-						}
-					
+						
 				}
+				
 				
 				else {
 					System.out.println("erro no login ");
-				}
-				
+					}
 			}
+				
+		}
 			
 			
-			if (e == 2) {
-				
-				System.out.println("Digite um Nome");
-				nome = n.nextLine();
-				System.out.println("Crie um Login");
-				login = l.nextLine();
-				System.out.println("Crie uma Senha");
-				senha = sn.nextLine();
-				
-				if(cadastrar(nome,login,senha)) {
-					
-			   System.out.println("usuario cadastrado com sucesso");
-					
-				}
-				
-				else
-				{
-					System.out.println("Erro de cadastro login ja existe");
-					
-				}
-				
-			}
+		
 			
 
 		}
@@ -297,9 +309,8 @@ String sql = "insert into pessoa(nome,login,senha) values(?,?,?)";
 			int param =pst.executeUpdate();			
 			
 			if (param>0){
-		     	
-			// criando as pastas de acesso dos usuarios
-			new File(login).mkdir();
+		    
+				new File(login).mkdir();
 			return true;
 			}
 			else {
@@ -349,11 +360,12 @@ String sql = "insert into pessoa(nome,login,senha) values(?,?,?)";
 		    	 System.out.println(separacao[i]);
 		        	  lista.add(separacao[i]);
 		     }
-		  	for (String s : lista) {
-				System.out.println(s);
-			}
-		     
-		     
+		  	//for (String s : lista) {
+				//System.out.println(s);
+				
+			//}
+		  	//lista.clear();
+		  	
 		  	 // clienteData.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

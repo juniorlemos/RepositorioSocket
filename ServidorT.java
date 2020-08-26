@@ -1,4 +1,4 @@
-package trabalho;
+package repeticao;
  
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -33,6 +33,8 @@ public class ServidorT implements Runnable {
             in = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
             String escolhacliente;
  
+            
+            
             while (true) {
                 escolhacliente = in.readLine();
  
