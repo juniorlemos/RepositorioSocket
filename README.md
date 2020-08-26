@@ -4,10 +4,10 @@ Servidor de Arquivos utilizando Socket e a API JDBC para fazer o login e cadastr
 
 Funçoes implementadas pelo Servidor.
 
-Upload
+Upload  
 Download  
 Listar  
-Deletar
+Deletar  
 Mover arquivo de  diretório 
 
 
