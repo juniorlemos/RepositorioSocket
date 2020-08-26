@@ -1,6 +1,6 @@
 # Servidor-de-Arquivos-com-Socket
 
-Servidor de Arquivos utilizando Socket e a API JDBC para fazer o login e cadastro de novos usuarios.
+Servidor de Arquivos utilizando Socket e a API JDBC para fazer o login e cadastro de novos usuarios e manupular arquivos entre servidor e cliente.
 
 Funçoes implementadas pelo Servidor.
 
