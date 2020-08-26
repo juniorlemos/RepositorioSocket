@@ -21,6 +21,7 @@ public class TesteServidorT implements Runnable {
     private BufferedReader in = null;
  
     private String usuario;
+    
  
     public TesteServidorT(Socket cliente) {
         this.clienteSocket = cliente;
@@ -72,10 +73,10 @@ public class TesteServidorT implements Runnable {
 
     			case "5":
 
-    				
+    				String origem = in.readLine();
     				String usuar = in.readLine();
     				String nomeArq = in.readLine();
-    				mover(usuar,nomeArq);
+    				mover(origem,usuar,nomeArq);
     				break;
 
     			
@@ -188,15 +189,20 @@ public class TesteServidorT implements Runnable {
 		}
 
 	}
-public void mover(String usuario,String nomeArquivo  ) {
+public void mover(String usuOrigem,String usuario,String nomeArquivo  ) {
 		
 		String origem = "";
 		String destino = "";
 		
 		try {
 			
-			origem = new File(nomeArquivo).getAbsolutePath();
+			origem =new File(".").getCanonicalPath() + "/" + usuOrigem + "/" + nomeArquivo;
+			
+			System.out.println(origem);
+			
 			destino = new File(".").getCanonicalPath() + "/" + usuario + "/" + nomeArquivo;
+			
+			System.out.println(destino);
 			
 			Path source = Paths.get(origem);
 			Path destination = Paths.get(destino);
