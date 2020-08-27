@@ -136,53 +136,105 @@ public class Cliente {
 					    
 					   
 					    
+					   atvServidor.println("Login/Public");
+
 					    while(e!=6) {
 					    
 					    	System.out.println("digite uma entrada");
 					    	System.out.println("1 enviar");
 					    	System.out.println("2 receber");
-					    	System.out.println("3 listar");
-					    	System.out.println("4 deletar ");
+					    	System.out.println("3 listar arquivos ");
+					    	System.out.println("4 deletar arquivos ");
 					    	System.out.println("5 mover ");
 					    	System.out.println("6 Sair ");
-					    	v =s.nextInt();
+					    	System.out.println("7 listar Pastas");
+					    	System.out.println("8 Deletar Pastas");
 					    	
-					    	switch (v) {
+					    	e =s.nextInt();
+	
+					    	switch (e) {
 							case 1:
 								System.out.println("subir ");					
-								atvServidor.println("1");
-						    	atvServidor.println(login);
+								atvServidor.println("1");								
+						    	atvServidor.println("Public");
+						    	
+						    	 System.err.print("Digite o nome da pasta: ");
+							        try {
+										nomeArquivo = entrada.readLine();
+									} catch (IOException e2) {
+										// TODO Auto-generated catch block
+										e2.printStackTrace();
+									}
+							        atvServidor.println(nomeArquivo);
 						        enviar();
 								break;					
 							case 2:
 								System.out.println("baixar");
-								
+								String pasta=""; 
 								atvServidor.println("2");
-						        System.err.print("Digite o nome do Arquivo: ");
+																
+							   System.out.print("Digite o nome da pasta: ");
+								try {
+									pasta=nomeArquivo = entrada.readLine();
+								} catch (IOException e3) {
+									// TODO Auto-generated catch block
+									e3.printStackTrace();
+								}
+								
+								
+								
+						        System.out.print("Digite o nome do Arquivo: ");
 						        try {
 									nomeArquivo = entrada.readLine();
 								} catch (IOException e2) {
 									// TODO Auto-generated catch block
 									e2.printStackTrace();
 								}
+						        
 						        atvServidor.println(nomeArquivo);
-						        atvServidor.println(login);
+						        atvServidor.println("Public"+"/"+pasta);
 						        receber(nomeArquivo);
 						        break;
 								
 								
 							case 3:
+								
+								String nomePasta;
 								System.out.println("listar");
+								
 								atvServidor.println("3");
-						    	atvServidor.println(login);
+								 System.out.print("Digite o nome da Pasta: ");
+								
+								 try {
+									 nomeArquivo = entrada.readLine();
+									} catch (IOException e2) {
+										// TODO Auto-generated catch block
+										e2.printStackTrace();
+									}
+								 atvServidor.println(nomeArquivo);
+						    	atvServidor.println("Public");
 						        listar();
 								
 								break;
 							case 4:
-								System.out.println("deleta");
-								
+								System.out.println("deletar arquivo");
+								String arq = "";
 								atvServidor.println("4");
-						    	atvServidor.println(login);
+						    	
+
+						    	System.err.print("Digite a pasta que contém arquivo o Arquivo: ");
+						    	
+						    	 try {
+										nomeArquivo = entrada.readLine();
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+						    	
+						    	arq=nomeArquivo;
+						    	
+						    	atvServidor.println("Public"+"/"+arq);
+						    	
 						    	System.err.print("Digite o nome do Arquivo: ");
 						        try {
 									nomeArquivo = entrada.readLine();
@@ -190,6 +242,8 @@ public class Cliente {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
+						       
+						        
 						        atvServidor.println(nomeArquivo);
 						        deletar();
 								
@@ -199,13 +253,15 @@ public class Cliente {
 								String usu;
 								atvServidor.println("5");
 								
-								atvServidor.println(login);
 								
-								System.err.print("Digite o nome do usuario para quem você quer mandar o arquivo");
+								
+								
+								
+								System.out.print("Digite o nome do usuario para quem você quer mandar o arquivo");
 								
 								try {
 									usu = entrada.readLine();
-									atvServidor.println(usu);
+									atvServidor.println(usu+"/"+"Public");
 
 									
 								} catch (IOException e1) {
@@ -213,7 +269,23 @@ public class Cliente {
 									e1.printStackTrace();
 								}
 
-						    	System.err.print("Digite o nome do Arquivo: ");
+								System.out.println("Digite o nome da  pasta onde está o arquivo ");										
+								
+								try {
+									usu = entrada.readLine();
+									atvServidor.println("ronaldo"+"/"+usu);
+
+									
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								
+								
+								
+								
+								
+						    	System.out.print("Digite o nome do Arquivo: ");
 						        try {
 									nomeArquivo = entrada.readLine();
 								} catch (IOException e1) {
@@ -223,6 +295,36 @@ public class Cliente {
 						        atvServidor.println(nomeArquivo);
 						        mover();
 								break;
+								
+							case 7:
+								System.out.println("listar");
+								atvServidor.println("7");
+						    	atvServidor.println("Public");
+						        listar();
+								break;
+								
+							case 8:
+								System.out.println("Deletar pasta");
+								String pas="";
+								atvServidor.println("8");
+								
+								System.err.print("Digite a pasta que você deseja deletar ");
+						    	
+						    	 try {
+										nomeArquivo = entrada.readLine();
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+						    	
+						    	pas=nomeArquivo;
+						    	
+								
+								
+						    	atvServidor.println("Public"+"/"+pas);
+						        deletarP();
+								break;
+								
 							default:
 								break;
 							}
@@ -296,6 +398,21 @@ public static void deletar() {
 	}
 }
 
+
+public static void deletarP() {
+    DataInputStream clienteData;
+	try {
+		clienteData = new DataInputStream(socket.getInputStream());
+		String mensagem = clienteData.readUTF();
+		System.out.println(mensagem);
+	  	 //clienteData.close();
+
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
 	public static boolean cadastrar (String nome ,String login ,String senha) {
 		
 String sql = "insert into pessoa(nome,login,senha) values(?,?,?)"; 	
@@ -309,8 +426,9 @@ String sql = "insert into pessoa(nome,login,senha) values(?,?,?)";
 			int param =pst.executeUpdate();			
 			
 			if (param>0){
-		    
-				new File(login).mkdir();
+		     	
+			// criando as pastas de acesso dos usuarios
+		//	new File(login).mkdir();
 			return true;
 			}
 			else {
@@ -360,12 +478,11 @@ String sql = "insert into pessoa(nome,login,senha) values(?,?,?)";
 		    	 System.out.println(separacao[i]);
 		        	  lista.add(separacao[i]);
 		     }
-		  	//for (String s : lista) {
-				//System.out.println(s);
-				
+		  //	for (String s : lista) {
+			//	System.out.println(s);
 			//}
-		  	//lista.clear();
-		  	
+		     
+		     
 		  	 // clienteData.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -424,5 +541,4 @@ String sql = "insert into pessoa(nome,login,senha) values(?,?,?)";
 					
 	 
 	 }
-
 }

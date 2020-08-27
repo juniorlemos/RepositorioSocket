@@ -33,7 +33,11 @@ public class ServidorT implements Runnable {
             in = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
             String escolhacliente;
  
+            String log=in.readLine();
             
+            System.out.println("login"+log);
+            
+        	new File(log).mkdirs();
             
             while (true) {
                 escolhacliente = in.readLine();
@@ -46,7 +50,10 @@ public class ServidorT implements Runnable {
                 case "1":
  
                     String usua = in.readLine();
-                    receber(usua);
+                    String p = in.readLine();
+                  
+                    
+                    receber(usua,p);
                     break;
                 
     			case "2":
@@ -59,9 +66,17 @@ public class ServidorT implements Runnable {
     				enviar(nomeCliente, us);
     				break;
     			case "3":
-
+    				String pasta;
+    				
+    			
+    				
+    				pasta = in.readLine();
+    				
+    				System.out.println(pasta);
+    				
     				usuario = in.readLine();
-    				listar(usuario);
+    				
+    				listar(usuario ,pasta);
     				break;
     			case "4":
 
@@ -78,11 +93,25 @@ public class ServidorT implements Runnable {
     				String origem = in.readLine();
     				String usuar = in.readLine();
     				String nomeArq = in.readLine();
-    				mover(origem,usuar,nomeArq);
+    				System.out.println(origem);
+    				System.out.println(usuar);
+    				
+    				
+    				mover(usuar,origem,nomeArq);
     				break;
 
-    			
+    			case "7":
+
+    				usuario = in.readLine();
+    				listarP(usuario);
+    				break;
                     
+    			case "8":
+
+    				usuario = in.readLine();
+    				deletarP(usuario);
+    				break;	
+    				
                 default:
  
                     break;
@@ -94,8 +123,26 @@ public class ServidorT implements Runnable {
         }
     }
  
-    public void receber(String usuario) {
+    public void receber(String usuario, String pasta) {
         try {
+        	
+        	
+        	
+        	String path = "";
+    		try {
+    			path = new File(".").getCanonicalPath() + "/" + usuario+"/"+pasta;
+    		} catch (IOException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+    		
+
+    	 File f = new File(path) ;
+    	
+    	 f.mkdir();
+        	
+        	
+        	
  
             String origem = "";
             String destino = "";
@@ -113,8 +160,11 @@ public class ServidorT implements Runnable {
             }
  
             origem = new File(nomeArquivo).getAbsolutePath();
-            destino = new File(".").getCanonicalPath() + "/" + usuario + "/" + nomeArquivo;
+            destino = new File(".").getCanonicalPath() + "/" + usuario+"/"+pasta + "/" + nomeArquivo;
  
+            System.out.println(destino);
+            
+            
             Path source = Paths.get(origem);
             Path destination = Paths.get(destino);
             Files.copy(source, destination);
@@ -162,10 +212,14 @@ public class ServidorT implements Runnable {
 			System.err.println("Arquivo não existe!");
 		}
 	}
-    public void listar(String usuario) {
+    public void listar(String usuario,String pasta ) {
+    	
+    	
+    	System.out.println(pasta);
+    	
 		String path = "";
 		try {
-			path = new File(".").getCanonicalPath() + "/" + usuario;
+			path = new File(".").getCanonicalPath() + "/" + usuario+"/"+pasta;
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -179,6 +233,37 @@ public class ServidorT implements Runnable {
 			System.out.println(fileTmp.getName());
 			nome = nome + fileTmp.getName() + "  ";
 		}
+		try {
+			DataOutputStream dos = new DataOutputStream(clienteSocket.getOutputStream());
+
+			dos.writeUTF(nome);
+			dos.flush();
+			//dos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+    public void listarP(String usuario) {
+		String path = "";
+		try {
+			path = new File(".").getCanonicalPath() + "/" + usuario;
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		File file = new File(path);
+		File[] arquivos = file.listFiles();
+
+		String nome = "";
+		for (File fileTmp : arquivos) {
+			if(fileTmp.isDirectory()) {
+			System.out.println(fileTmp.getName());
+			nome = nome + fileTmp.getName() + "  ";
+			}
+			}
 		try {
 			DataOutputStream dos = new DataOutputStream(clienteSocket.getOutputStream());
 
@@ -229,6 +314,7 @@ public void mover(String usuOrigem,String usuario,String nomeArquivo  ) {
 	
 	public void deletar(String usuario, String arquivo) {
 
+
 		System.out.println(usuario);
 
 		String path = "";
@@ -264,5 +350,54 @@ public void mover(String usuOrigem,String usuario,String nomeArquivo  ) {
 
 		}
 
+	}
+	
+	
+	public void deletarP(String usuario) {
+
+
+		System.out.println(usuario);
+
+		String path = "";
+		try {
+			path = new File(".").getCanonicalPath() + "/" + usuario;
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		File file = new File(path);
+
+		if (file.exists())
+		{
+		deleteDir(file);
+		
+		try {
+			DataOutputStream dos = new DataOutputStream(clienteSocket.getOutputStream());
+			dos.writeUTF(" Diretorio  apagado com sucesso" );
+			dos.flush();
+			//dos.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		}
+		
+					
+
+	}
+	
+	public static 	 void deleteDir(File file) {
+	    File[] contents = file.listFiles();
+	    if (contents != null) {
+	        for (File f : contents) {
+	            deleteDir(f);
+	        }
+	    }
+	    file.delete();
 	}
 }
