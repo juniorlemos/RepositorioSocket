@@ -136,7 +136,7 @@ public class Cliente {
 					    
 					   
 					    
-					   atvServidor.println("Login/Public");
+					   atvServidor.println(login+"/Public");
 
 					    while(e!=6) {
 					    
@@ -156,7 +156,7 @@ public class Cliente {
 							case 1:
 								System.out.println("subir ");					
 								atvServidor.println("1");								
-						    	atvServidor.println("Public");
+						    	atvServidor.println(login);
 						    	
 						    	 System.err.print("Digite o nome da pasta: ");
 							        try {
@@ -192,7 +192,7 @@ public class Cliente {
 								}
 						        
 						        atvServidor.println(nomeArquivo);
-						        atvServidor.println("Public"+"/"+pasta);
+						        atvServidor.println(login+"/"+pasta);
 						        receber(nomeArquivo);
 						        break;
 								
@@ -212,7 +212,7 @@ public class Cliente {
 										e2.printStackTrace();
 									}
 								 atvServidor.println(nomeArquivo);
-						    	atvServidor.println("Public");
+						    	atvServidor.println(login);
 						        listar();
 								
 								break;
@@ -233,7 +233,7 @@ public class Cliente {
 						    	
 						    	arq=nomeArquivo;
 						    	
-						    	atvServidor.println("Public"+"/"+arq);
+						    	atvServidor.println(login+"/"+arq);
 						    	
 						    	System.err.print("Digite o nome do Arquivo: ");
 						        try {
@@ -273,7 +273,7 @@ public class Cliente {
 								
 								try {
 									usu = entrada.readLine();
-									atvServidor.println("ronaldo"+"/"+usu);
+									atvServidor.println(login+"/"+usu);
 
 									
 								} catch (IOException e1) {
@@ -299,7 +299,7 @@ public class Cliente {
 							case 7:
 								System.out.println("listar");
 								atvServidor.println("7");
-						    	atvServidor.println("Public");
+						    	atvServidor.println(login);
 						        listar();
 								break;
 								
@@ -321,7 +321,7 @@ public class Cliente {
 						    	
 								
 								
-						    	atvServidor.println("Public"+"/"+pas);
+						    	atvServidor.println(login+"/"+pas);
 						        deletarP();
 								break;
 								
