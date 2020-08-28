@@ -12,3 +12,8 @@ Mover arquivo de  diretório
 
 
 OBS: Primeiro execute o playServidor e depois execute o cliente .
+
+
+Instalação:
+
+Baixe o arquivo 
