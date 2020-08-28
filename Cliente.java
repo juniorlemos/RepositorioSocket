@@ -1,4 +1,4 @@
-package repeticao;
+
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
 
 import java.sql.*;
 
@@ -37,7 +37,8 @@ public class Cliente {
 	
 	public static void main(String[] args) {
 
-		String login;
+		String login = null;
+		String lp = null;
 		String senha;
 		String nome;
 		String ip;
@@ -47,57 +48,54 @@ public class Cliente {
 		Scanner sn = new Scanner(System.in);
 		Scanner n = new Scanner(System.in);
 
-		conect = Conexao.conector();
+
 
 		int e = 0;
-		while (e != 3) {
+		//while (e != 3) {
 
-			System.out.println("Faça sua Escolha");
-			System.out.println("1 login");
-			System.out.println("2 cadastrar");
-			e = s.nextInt();
+			//System.out.println("\nFaça sua Escolha");
+			//System.out.println("1 login");
+			//System.out.println("2 cadastrar");
+			//System.out.println("3 sair");
+			//e = s.nextInt();
 			
 			
 			
-               if (e == 2) {
+            //   if (e == 2) {
 				
-				System.out.println("Digite um Nome");
-				nome = n.nextLine();
-				System.out.println("Crie um Login");
-				login = l.nextLine();
-				System.out.println("Crie uma Senha");
-				senha = sn.nextLine();
+				//System.out.println("Digite um Nome");
+				//nome = n.nextLine();
+				//System.out.println("Crie um Login");
+				//login = l.nextLine();
+				//System.out.println("Crie uma Senha");
+				//senha = sn.nextLine();
 				
-				if(cadastrar(nome,login,senha)) {
+			//	if(cadastrar(nome,login,senha)) {
 					
-			   System.out.println("usuario cadastrado com sucesso");
+			  // System.out.println("Usuario "+ nome+ "cadastrado com sucesso");
 					
-				}
+				//}
 				
-				else
-				{
-					System.out.println("Erro de cadastro login ja existe");
+				//else
+				//{
+					//System.out.println("Erro de cadastro login ja existe");
 					
-				}
+				//}
 				
-			}
-               
-               
-               
-               
-               
+			//}
+                                            
                
 			
-			if (e == 1) {
+			//if (e == 1) {
 
-				System.out.println("Digite o seu Login");
-				login = l.nextLine();
-				System.out.println("Digite a sua Senha");
-				senha = sn.nextLine();
+				//System.out.println("Digite o seu Login");
+				//login = l.nextLine();
+				//System.out.println("Digite a sua Senha ");
+				//senha = sn.nextLine();
 
-				if (logar(login, senha)) {
-					System.out.println("Sistema logado com sucesso"+login);
-					System.out.println("Ben Vindo: "+login);
+			//	if (logar(login, senha)) {
+				//	System.out.println("Sistema logado com sucesso"+login);
+					//System.out.println("Ben Vindo: "+login);
 					
 					while(true) {
 					
@@ -134,29 +132,135 @@ public class Cliente {
 					    //int e;
 					   int v =0;
 					    
+					   while (e != 3) {
+
+							System.out.println("\nFaça sua Escolha");
+							System.out.println("1 login");
+							System.out.println("2 cadastrar");
+							System.out.println("3 sair");
+							e = s.nextInt();
 					   
-					    
-					   atvServidor.println(login+"/Public");
+					   
+							if (e == 1) {
+
+								System.out.println("Digite o seu Login");
+								login = l.nextLine();
+								System.out.println("Digite a sua Senha ");
+								senha = sn.nextLine();
+
+								String pass="ok"; 
+								
+								atvServidor.println("1;"+login+";"+senha);
+								
+								ObjectInputStream entrada = null;
+								try {
+									entrada = new ObjectInputStream(socket.getInputStream());
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								String input = null;
+								try {
+									input = entrada.readObject().toString();
+								} catch (ClassNotFoundException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								
+								if (input.equals(pass)){
+									System.out.println("login Realizado com Sucesso");
+									
+									lp=login;
+									break;
+									}
+								
+								else {
+									System.out.println("Login ou senha incorretos");
+								}
+								}
+							
+							
+							
+							if (e == 2) {
+								
+								
+								System.out.println("Cadastre o seu Nome");
+								nome = n.nextLine();
+								System.out.println("Cadastre o seu Login");
+								login = l.nextLine();
+								System.out.println("Cadastre a sua Senha ");
+								senha = sn.nextLine();
+							
+								atvServidor.println("2;"+nome+";"+login+";"+senha);
+								
+								ObjectInputStream entrada = null;
+								try {
+									entrada = new ObjectInputStream(socket.getInputStream());
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								String input = null;
+								try {
+									input = entrada.readObject().toString();
+								} catch (ClassNotFoundException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								
+								if (input.equals("ok")){
+									System.out.println("Cadastro Realizado com Sucesso");
+									
+									}
+								
+								else {
+									System.out.println("Cadastro incorreto");
+								}
+								}
+							
+							}
+							
+							
+					   
+								
+							//	if (logar(login, senha)) {
+								//	System.out.println("Sistema logado com sucesso"+login);
+									//System.out.println("Ben Vindo: "+login);
+							
+							
+					   
+					   
+					   
+					   System.out.println(lp);
+					   
+					   
+					   atvServidor.println(lp+"/Public");
 
 					    while(e!=6) {
 					    
-					    	System.out.println("digite uma entrada");
-					    	System.out.println("1 enviar");
-					    	System.out.println("2 receber");
-					    	System.out.println("3 listar arquivos ");
-					    	System.out.println("4 deletar arquivos ");
-					    	System.out.println("5 mover ");
+					    	System.out.println("Digite uma entrada");
+					    	System.out.println("1 Upload");
+					    	System.out.println("2 Dowloand");
+					    	System.out.println("3 Listar Arquivos ");
+					    	System.out.println("4 Deletar Arquivos ");
+					    	System.out.println("5 Mover Arquivos ");
 					    	System.out.println("6 Sair ");
-					    	System.out.println("7 listar Pastas");
+					    	System.out.println("7 Listar Pastas");
 					    	System.out.println("8 Deletar Pastas");
 					    	
 					    	e =s.nextInt();
 	
 					    	switch (e) {
 							case 1:
-								System.out.println("subir ");					
+								System.out.println("Upload \n ");					
 								atvServidor.println("1");								
-						    	atvServidor.println(login);
+						    	atvServidor.println(lp);
 						    	
 						    	 System.err.print("Digite o nome da pasta: ");
 							        try {
@@ -169,7 +273,7 @@ public class Cliente {
 						        enviar();
 								break;					
 							case 2:
-								System.out.println("baixar");
+								System.out.println("Dowloand \n");
 								String pasta=""; 
 								atvServidor.println("2");
 																
@@ -192,7 +296,7 @@ public class Cliente {
 								}
 						        
 						        atvServidor.println(nomeArquivo);
-						        atvServidor.println(login+"/"+pasta);
+						        atvServidor.println(lp+"/"+pasta);
 						        receber(nomeArquivo);
 						        break;
 								
@@ -200,7 +304,7 @@ public class Cliente {
 							case 3:
 								
 								String nomePasta;
-								System.out.println("listar");
+								System.out.println("Listar Arquivos");
 								
 								atvServidor.println("3");
 								 System.out.print("Digite o nome da Pasta: ");
@@ -212,12 +316,12 @@ public class Cliente {
 										e2.printStackTrace();
 									}
 								 atvServidor.println(nomeArquivo);
-						    	atvServidor.println(login);
+						    	atvServidor.println(lp);
 						        listar();
 								
 								break;
 							case 4:
-								System.out.println("deletar arquivo");
+								System.out.println("Deletar arquivo");
 								String arq = "";
 								atvServidor.println("4");
 						    	
@@ -233,7 +337,7 @@ public class Cliente {
 						    	
 						    	arq=nomeArquivo;
 						    	
-						    	atvServidor.println(login+"/"+arq);
+						    	atvServidor.println(lp+"/"+arq);
 						    	
 						    	System.err.print("Digite o nome do Arquivo: ");
 						        try {
@@ -273,7 +377,7 @@ public class Cliente {
 								
 								try {
 									usu = entrada.readLine();
-									atvServidor.println(login+"/"+usu);
+									atvServidor.println(lp+"/"+usu);
 
 									
 								} catch (IOException e1) {
@@ -297,9 +401,9 @@ public class Cliente {
 								break;
 								
 							case 7:
-								System.out.println("listar");
+								System.out.println("Listar Pastas");
 								atvServidor.println("7");
-						    	atvServidor.println(login);
+						    	atvServidor.println(lp);
 						        listar();
 								break;
 								
@@ -321,7 +425,7 @@ public class Cliente {
 						    	
 								
 								
-						    	atvServidor.println(login+"/"+pas);
+						    	atvServidor.println(lp+"/"+pas);
 						        deletarP();
 								break;
 								
@@ -333,13 +437,13 @@ public class Cliente {
 						}
 						s.close();
 						
-				}
+				//}
 				
 				
-				else {
-					System.out.println("erro no login ");
-					}
-			}
+			//	else {
+				//	System.out.println("Erro no login ");
+					//}
+			//}
 				
 		}
 			
@@ -347,7 +451,7 @@ public class Cliente {
 		
 			
 
-		}
+		//}
 
 	//}
 
@@ -462,7 +566,7 @@ String sql = "insert into pessoa(nome,login,senha) values(?,?,?)";
 		  output.close();
 		 // in.close();
 
-		  System.out.println("Arquivo "+nomeArquivo+" recebido pelo Servidor.");
+		  System.out.println("Arquivo "+nomeArquivo+" baixado do Servidor.");
 		} catch (IOException ex) {
 		}
 		}	

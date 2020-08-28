@@ -1,9 +1,11 @@
-package repeticao;
+
 
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.*;
+
  
 public class PlayServidor {
  
@@ -18,7 +20,7 @@ public class PlayServidor {
         while (true) {
  
             cliente = serverSocket.accept();
-            System.out.println("Conexão realizada IP  " + cliente.getInetAddress());
+            System.out.println("Conexão realizada IP " + cliente.getInetAddress());
  
             Thread t = new Thread(new ServidorT(cliente));
  

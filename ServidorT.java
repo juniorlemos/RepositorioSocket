@@ -1,4 +1,4 @@
-package repeticao;
+
  
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -9,14 +9,23 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
  
 public class ServidorT implements Runnable {
- 
+	static Connection conect = null;
+	static PreparedStatement pst = null;
+	static ResultSet rs = null;
+	private static PrintStream atvServidor;	
+	
     private Socket clienteSocket;
     private BufferedReader in = null;
  
@@ -30,9 +39,73 @@ public class ServidorT implements Runnable {
     @Override
     public void run() {
         try {
+        	
+        	conect = Conexao.conector();
+        	
+        	
+        	
             in = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
             String escolhacliente;
- 
+   
+            Boolean bd= true;
+            
+            while(bd) {
+            	
+            String autenticacao=in.readLine();
+           
+            String aut[] =autenticacao.split(";");
+            String op=aut[0];
+            System.out.println(op);
+           
+            
+            
+            
+            
+            if (op.equals("2")) {
+      	      System.out.println("passou no 2");      
+
+             String lo=aut[1];
+             String se=aut[2];
+             String no=aut[3];
+            
+             ObjectOutputStream write = new ObjectOutputStream(clienteSocket.getOutputStream());   
+            if( cadastrar(no,lo, se)) {
+          	  String buffer = "ok";
+             	write.writeObject(buffer);
+                 }
+            
+          else {
+          	   String buffer = "false";
+                	write.writeObject(buffer);
+              }
+          }   
+            
+            if (op.equals("1")) {
+      System.out.println("passou no 1");      
+            String login=aut[1];
+            String senha=aut[2];
+            ObjectOutputStream writer = new ObjectOutputStream(clienteSocket.getOutputStream());
+           if (logar(login,senha)) {
+        	
+           	String buffer = "ok";
+           	writer.writeObject(buffer);
+            bd = false;
+            System.out.println("Usuario logado");                       
+            new File(login+"/Public").mkdirs();
+           }else {
+        	   String buffer = "false";
+              	writer.writeObject(buffer);
+            }
+            
+         
+              
+              
+           
+           
+           
+           
+            }
+            }
             String log=in.readLine();
             
             System.out.println("login"+log);
@@ -110,6 +183,11 @@ public class ServidorT implements Runnable {
 
     				usuario = in.readLine();
     				deletarP(usuario);
+    				break;	
+    		
+    			case "null":
+
+
     				break;	
     				
                 default:
@@ -390,6 +468,69 @@ public void mover(String usuOrigem,String usuario,String nomeArquivo  ) {
 					
 
 	}
+	
+	
+	
+	public static boolean cadastrar (String nome ,String login ,String senha) {
+		
+		String sql = "insert into pessoa(nome,login,senha) values(?,?,?)"; 	
+				try {
+
+					pst=conect.prepareStatement(sql);
+					pst.setString(1,nome);
+					pst.setString(2,login);
+					pst.setString(3,senha);
+						
+					int param =pst.executeUpdate();			
+					
+					if (param>0){
+				     	
+					// criando as pastas de acesso dos usuarios
+				//	new File(login).mkdir();
+					return true;
+					}
+					else {
+					return false;				
+								}  
+					
+				}
+					  catch (Exception e) {
+				return false;
+					
+				}
+			}
+	
+	
+	public static boolean logar(String login, String senha) {
+		 
+		 String sql ="select * from pessoa where login=? and senha=?";
+			
+			try {
+				pst=conect.prepareStatement(sql);
+				pst.setString(1, login);
+				pst.setString(2, senha);
+				
+				rs= pst.executeQuery();
+
+				if (rs.next()) {
+					
+				
+					conect.close();
+				return true;
+				}
+				
+				else  {
+					
+				return false ;
+				
+				}
+				}catch (Exception e) {
+					
+				}
+			return false;
+					
+	 
+	 }
 	
 	public static 	 void deleteDir(File file) {
 	    File[] contents = file.listFiles();
